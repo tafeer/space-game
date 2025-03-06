@@ -1,5 +1,7 @@
 from settings import *
 from player import Player
+from star import Star
+from random import randint
 
 class Game:
     def __init__(self):
@@ -12,6 +14,10 @@ class Game:
 
         # groups
         self.all_sprites = pygame.sprite.Group()
+        
+        # stars
+        for i in range(20):
+            Star((randint(0, WINDOW_WIDTH),randint(0, WINDOW_HEIGHT)), (self.all_sprites))
 
         # player
         self.player = Player((WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2), (self.all_sprites))
@@ -26,6 +32,7 @@ class Game:
 
             # updating the screen
             self.display_surface.fill("Black")
+            self.all_sprites.update(dt)
             self.all_sprites.draw(self.display_surface)
 
             pygame.display.update()
