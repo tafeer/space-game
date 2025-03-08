@@ -22,6 +22,8 @@ class Game:
         # player
         self.player = Player((WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2), (self.all_sprites))
 
+        # asteroids
+
     def run(self):
         while self.running:
             dt = self.clock.tick() / 1000
