@@ -16,17 +16,19 @@ class Player(pygame.sprite.Sprite):
 
     def input(self):
         keys = pygame.key.get_pressed()
-        self.direction.x = keys[int(pygame.K_RIGHT)] - keys[int(pygame.K_LEFT)]
-        self.direction.y = keys[int(pygame.K_DOWN)] - keys[int(pygame.K_UP)]
-        self.direction = self.direction.normalize() if self.direction else self.direction
+        x = keys[int(pygame.K_RIGHT)] - keys[int(pygame.K_LEFT)]
+        y = keys[int(pygame.K_DOWN)] - keys[int(pygame.K_UP)]
+        self.is_moving = x or y
+        if self.is_moving:
+            self.direction = pygame.math.Vector2(x, y).normalize()
 
     def movement(self,dt):
-        if self.speed <= self.max_speed and keys:
+        if self.speed <= self.max_speed and self.is_moving:
             self.speed += self.acceleration * dt
-        elif self.speed >= 0 and not keys:
+        elif self.speed >= 0 and not self.is_moving:
             self.speed -= self.deceleration * dt
-        self.rect.x += self.last_direction.x * self.speed * dt
-        self.rect.y += self.last_direction.y * self.speed * dt
+        self.rect.x += self.direction.x * self.speed * dt
+        self.rect.y += self.direction.y * self.speed * dt
 
     def update(self,dt):
         self.input()
